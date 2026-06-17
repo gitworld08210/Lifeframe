@@ -2,7 +2,7 @@
   "id": "FEAT-002",
   "type": "feat",
   "description": "Enhanced messaging system with typing indicators, image sending, read receipts, group chat creation, and voice/video calling using native WebRTC with Firebase Firestore signaling.",
-  "status": "in_progress",
+  "status": "completed",
   "steps": [
     "1. Rewrite src/pages/Messages.jsx: add group chat creation button/modal (select multiple users, set group name), improve chat list to show unread count, last message preview, online status dot, distinguish group vs 1:1 chats, add floating action button for new chat/group",
     "2. Rewrite src/pages/ChatView.jsx: add typing indicator (write to Firestore typing subcollection on input, listen for other user typing), add image sending via Cloudinary upload button, add read receipts (mark messages as read when chat is open, show double-check icon for read messages), add call buttons (voice/video) in chat header, show group members list for group chats",
@@ -29,5 +29,5 @@
     "Verify Firestore signaling pattern is correct (offer/answer/candidates flow)"
   ],
   "blocked_reason": null,
-  "findings": ""
+  "findings": "All 8 steps completed. Created webrtc.js service with STUN servers (stun.l.google.com:19302, stun1.l.google.com:19302), RTCPeerConnection helpers, and Firestore signaling (offer/answer/ICE candidates in calls collection). Messages.jsx enhanced with group chat creation modal, unread badges, online status dots, FAB menu. ChatView.jsx enhanced with typing indicators (writes to chats/{chatId}/typing/{uid}), image sending via Cloudinary, read receipts (lastRead map in chat doc), and voice/video call initiation. VideoCall.jsx has full-screen PiP layout. VoiceCall.jsx has avatar with pulse animation. IncomingCall.jsx listens for calls where recipientId matches and status is ringing. Routes added for /call/video/:callId and /call/voice/:callId. Cannot run npm build in INTEGRATIONS_ONLY mode - verified via brace/paren balance check and node --check on .js files."
 }
