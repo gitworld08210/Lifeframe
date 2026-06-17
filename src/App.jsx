@@ -15,6 +15,11 @@ import Profile from './pages/Profile';
 import Notifications from './pages/Notifications';
 import VideoCall from './pages/VideoCall';
 import VoiceCall from './pages/VoiceCall';
+import CreatorDashboard from './pages/CreatorDashboard';
+import Verification from './pages/Verification';
+import Premium from './pages/Premium';
+import FollowersList from './pages/FollowersList';
+import FollowingList from './pages/FollowingList';
 
 export default function App() {
   return (
@@ -47,7 +52,12 @@ export default function App() {
           <Route path="/messages" element={<Messages />} />
           <Route path="/messages/:chatId" element={<ChatView />} />
           <Route path="/profile/:userId" element={<Profile />} />
+          <Route path="/profile/:userId/followers" element={<FollowersList />} />
+          <Route path="/profile/:userId/following" element={<FollowingList />} />
           <Route path="/notifications" element={<Notifications />} />
+          <Route path="/dashboard" element={<CreatorDashboard />} />
+          <Route path="/verification" element={<Verification />} />
+          <Route path="/premium" element={<Premium />} />
         </Route>
         <Route
           path="/call/video/:callId"

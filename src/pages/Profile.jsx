@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { doc, getDoc, setDoc, deleteDoc, updateDoc, increment, collection, query, where, orderBy, onSnapshot } from 'firebase/firestore';
 import { db } from '../firebase';
 import { useAuth } from '../contexts/AuthContext';
@@ -10,8 +10,10 @@ import { formatTime } from '../utils/formatTime';
 export default function Profile() {
   const { userId } = useParams();
   const { currentUser, userProfile } = useAuth();
+  const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [posts, setPosts] = useState([]);
+  const [reels, setReels] = useState([]);
   const [isFollowing, setIsFollowing] = useState(false);
   const [loading, setLoading] = useState(true);
   const [editing, setEditing] = useState(false);
@@ -41,6 +43,12 @@ export default function Profile() {
     return () => unsub();
   }, [userId]);
 
+  useEffect(() => {
+    const q = query(collection(db, 'reels'), where('authorId', '==', userId), orderBy('createdAt', 'desc'));
+    const unsub = onSnapshot(q, (snap) => setReels(snap.docs.map((d) => ({ id: d.id, ...d.data() }))));
+    return () => unsub();
+  }, [userId]);
+
   async function handleFollow() {
     if (isFollowing) {
       await deleteDoc(doc(db, 'users', currentUser.uid, 'following', userId));
@@ -63,14 +71,14 @@ export default function Profile() {
   async function handleAvatarUpload(e) {
     const file = e.target.files[0]; if (!file) return;
     setUploading(true);
-    try { const r = await uploadToCloudinary(file, 'glassverse/avatars'); await updateDoc(doc(db, 'users', currentUser.uid), { avatarUrl: r.url }); setProfile((p) => ({ ...p, avatarUrl: r.url })); }
+    try { const r = await uploadToCloudinary(file, 'lifeframe/avatars'); await updateDoc(doc(db, 'users', currentUser.uid), { avatarUrl: r.url }); setProfile((p) => ({ ...p, avatarUrl: r.url })); }
     catch (err) { console.error(err); } finally { setUploading(false); }
   }
 
   async function handleCoverUpload(e) {
     const file = e.target.files[0]; if (!file) return;
     setUploading(true);
-    try { const r = await uploadToCloudinary(file, 'glassverse/covers'); await updateDoc(doc(db, 'users', currentUser.uid), { coverUrl: r.url }); setProfile((p) => ({ ...p, coverUrl: r.url })); }
+    try { const r = await uploadToCloudinary(file, 'lifeframe/covers'); await updateDoc(doc(db, 'users', currentUser.uid), { coverUrl: r.url }); setProfile((p) => ({ ...p, coverUrl: r.url })); }
     catch (err) { console.error(err); } finally { setUploading(false); }
   }
 
@@ -91,7 +99,7 @@ export default function Profile() {
           {isOwn && <label className="cover-upload-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleCoverUpload} /></label>}
         </div>
         <div className="profile-info">
-          <div className="profile-avatar" style={{ position: 'relative' }}>
+          <div className={`profile-avatar ${profile.isPremium ? 'premium-ring' : ''}`} style={{ position: 'relative' }}>
             {profile.avatarUrl ? <img src={profile.avatarUrl} alt="" /> : <div className="avatar-placeholder-lg">{profile.displayName?.charAt(0)}</div>}
             {isOwn && <label className="avatar-upload-btn"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg><input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleAvatarUpload} /></label>}
           </div>
@@ -104,16 +112,34 @@ export default function Profile() {
             </div>
           ) : (
             <>
-              <h2>{profile.displayName}</h2>
+              <h2>
+                {profile.displayName}
+                {profile.isVerified && (
+                  <span className="verified-badge" title="Verified">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#3b82f6" stroke="white" strokeWidth="2">
+                      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                      <polyline points="22 4 12 14.01 9 11.01" />
+                    </svg>
+                  </span>
+                )}
+              </h2>
               <p className="profile-handle">@{profile.username}</p>
               {profile.bio && <p className="profile-bio">{profile.bio}</p>}
               <div className="profile-stats">
                 <div className="stat"><strong>{posts.length}</strong><span>Posts</span></div>
-                <div className="stat"><strong>{profile.followers || 0}</strong><span>Followers</span></div>
-                <div className="stat"><strong>{profile.following || 0}</strong><span>Following</span></div>
+                <div className="stat"><strong>{reels.length}</strong><span>Reels</span></div>
+                <div className="stat clickable" onClick={() => navigate(`/profile/${userId}/followers`)}><strong>{profile.followers || 0}</strong><span>Followers</span></div>
+                <div className="stat clickable" onClick={() => navigate(`/profile/${userId}/following`)}><strong>{profile.following || 0}</strong><span>Following</span></div>
               </div>
               <div className="profile-actions">
-                {isOwn ? <button className="glass-btn primary" onClick={() => setEditing(true)}>Edit Profile</button> : <button className={`glass-btn ${isFollowing ? '' : 'primary'}`} onClick={handleFollow}>{isFollowing ? 'Unfollow' : 'Follow'}</button>}
+                {isOwn ? (
+                  <>
+                    <button className="glass-btn primary" onClick={() => setEditing(true)}>Edit Profile</button>
+                    <button className="glass-btn" onClick={() => navigate('/dashboard')}>Dashboard</button>
+                  </>
+                ) : (
+                  <button className={`glass-btn ${isFollowing ? '' : 'primary'}`} onClick={handleFollow}>{isFollowing ? 'Unfollow' : 'Follow'}</button>
+                )}
               </div>
             </>
           )}
@@ -122,6 +148,7 @@ export default function Profile() {
 
       <div className="profile-tabs glass-card">
         <button className={`tab-btn ${activeTab === 'posts' ? 'active' : ''}`} onClick={() => setActiveTab('posts')}>Posts</button>
+        <button className={`tab-btn ${activeTab === 'reels' ? 'active' : ''}`} onClick={() => setActiveTab('reels')}>Reels</button>
         <button className={`tab-btn ${activeTab === 'media' ? 'active' : ''}`} onClick={() => setActiveTab('media')}>Media</button>
       </div>
 
@@ -137,6 +164,27 @@ export default function Profile() {
           {posts.length === 0 && <div className="empty-state"><p>No posts yet</p></div>}
         </div>
       )}
+
+      {activeTab === 'reels' && (
+        <div className="profile-grid">
+          {reels.map((reel) => (
+            <div key={reel.id} className="profile-grid-item reel-grid-item">
+              {reel.thumbnailUrl ? (
+                <img src={reel.thumbnailUrl} alt="" />
+              ) : (
+                <div className="reel-grid-placeholder">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polygon points="5 3 19 12 5 21 5 3" />
+                  </svg>
+                  <span>{reel.views || 0} views</span>
+                </div>
+              )}
+            </div>
+          ))}
+          {reels.length === 0 && <div className="empty-state"><p>No reels yet</p></div>}
+        </div>
+      )}
+
       {activeTab === 'media' && (
         <div className="profile-grid">
           {posts.filter((p) => p.imageUrl).map((post) => <div key={post.id} className="profile-grid-item"><img src={post.imageUrl} alt="" /></div>)}
