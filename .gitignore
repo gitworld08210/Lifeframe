@@ -4,3 +4,11 @@ dist/
 .env.local
 .DS_Store
 *.log
+
+# Android
+android/.gradle/
+android/app/build/
+android/build/
+android/captures/
+android/.idea/
+*.apk

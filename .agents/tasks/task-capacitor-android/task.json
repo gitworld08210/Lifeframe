@@ -1,0 +1,7 @@
+{
+  "task_id": "task-capacitor-android",
+  "task_description": "Convert the Lifeframe Vite web app into a Capacitor Android application with full android/ project structure, splash screen, app icon resources, and GitHub Actions CI workflow for building APKs.",
+  "status": "in_progress",
+  "feature_order": ["FEAT-001"],
+  "blocked_reason": null
+}

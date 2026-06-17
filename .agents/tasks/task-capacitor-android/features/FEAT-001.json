@@ -1,0 +1,50 @@
+{
+  "id": "FEAT-001",
+  "type": "feat",
+  "description": "Add Capacitor configuration and Android project structure to convert the Vite web app into a Capacitor Android application, including splash screen resources, app icons, and a GitHub Actions workflow for building APKs.",
+  "status": "in_progress",
+  "steps": [
+    "Update package.json to add Capacitor dependencies (@capacitor/core, @capacitor/cli, @capacitor/android) and a 'cap sync' script",
+    "Create capacitor.config.ts at project root with appId: com.lifeframe.app, appName: Lifeframe, webDir: dist",
+    "Create android/build.gradle (project-level Gradle build file with Android Gradle plugin, Google services, Kotlin plugin)",
+    "Create android/settings.gradle with include ':app'",
+    "Create android/gradle.properties with standard Android properties",
+    "Create android/gradle/wrapper/gradle-wrapper.properties pointing to Gradle 8.x distribution",
+    "Create android/app/build.gradle with compileSdk 34, minSdk 22, targetSdk 34, applicationId com.lifeframe.app, Capacitor dependencies",
+    "Create android/app/src/main/AndroidManifest.xml with internet permission, main activity declaration pointing to com.lifeframe.app.MainActivity",
+    "Create android/app/src/main/java/com/lifeframe/app/MainActivity.java extending BridgeActivity",
+    "Create android/app/src/main/res/values/strings.xml with app_name Lifeframe",
+    "Create android/app/src/main/res/values/styles.xml with AppTheme and splash screen theme",
+    "Create android/app/src/main/res/values/colors.xml with brand colors",
+    "Create android/app/src/main/res/layout/activity_main.xml with the Capacitor bridge layout",
+    "Create android/app/src/main/res/drawable/splash.xml with a placeholder splash screen drawable",
+    "Create android/app/src/main/res/drawable/ic_launcher_foreground.xml with a placeholder vector drawable",
+    "Create android/app/src/main/res/drawable/ic_launcher_background.xml with brand color background",
+    "Create android/app/src/main/res/mipmap-hdpi/, mipmap-mdpi/, mipmap-xhdpi/, mipmap-xxhdpi/, mipmap-xxxhdpi/ directories with ic_launcher.xml adaptive icon references",
+    "Create android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml adaptive icon manifest",
+    "Create android/variables.gradle with SDK and Capacitor version variables",
+    "Update .gitignore to add Android-specific ignores (android/.gradle/, android/app/build/, etc.)",
+    "Create .github/workflows/build-apk.yml that: triggers on push, sets up Java 17, sets up Node.js, installs dependencies, runs vite build, runs npx cap sync android, builds debug APK with ./gradlew assembleDebug in android/ directory, uploads APK artifact"
+  ],
+  "acceptance_criteria": [
+    "package.json contains @capacitor/core, @capacitor/cli, and @capacitor/android as dependencies",
+    "capacitor.config.ts exists with correct appId, appName, and webDir",
+    "android/app/src/main/AndroidManifest.xml is valid with correct package and permissions",
+    "android/app/build.gradle has correct compileSdk, minSdk, targetSdk, and applicationId",
+    "android/app/src/main/java/com/lifeframe/app/MainActivity.java extends BridgeActivity",
+    "Splash screen and icon resources exist in res/ directories",
+    ".github/workflows/build-apk.yml exists with correct CI steps",
+    "All files are committed and pushed to GitHub"
+  ],
+  "verification": [
+    "Verify capacitor.config.ts exists and contains com.lifeframe.app",
+    "Verify android/app/src/main/AndroidManifest.xml exists and is valid XML",
+    "Verify android/app/build.gradle exists with compileSdk 34",
+    "Verify .github/workflows/build-apk.yml exists with correct triggers and steps",
+    "Verify package.json has capacitor dependencies",
+    "Run git status to confirm everything is committed",
+    "Verify push to remote succeeded"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}
