@@ -1,5 +1,6 @@
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import IncomingCall from './IncomingCall';
 
 export default function Layout() {
   const { currentUser, userProfile, logout } = useAuth();
@@ -7,6 +8,7 @@ export default function Layout() {
 
   return (
     <div className="app-container">
+      <IncomingCall />
       <header className="glass-header">
         <div className="header-left">
           <h1 className="app-logo">Lifeframe</h1>

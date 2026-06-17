@@ -1,0 +1,33 @@
+{
+  "id": "FEAT-002",
+  "type": "feat",
+  "description": "Enhanced messaging system with typing indicators, image sending, read receipts, group chat creation, and voice/video calling using native WebRTC with Firebase Firestore signaling.",
+  "status": "in_progress",
+  "steps": [
+    "1. Rewrite src/pages/Messages.jsx: add group chat creation button/modal (select multiple users, set group name), improve chat list to show unread count, last message preview, online status dot, distinguish group vs 1:1 chats, add floating action button for new chat/group",
+    "2. Rewrite src/pages/ChatView.jsx: add typing indicator (write to Firestore typing subcollection on input, listen for other user typing), add image sending via Cloudinary upload button, add read receipts (mark messages as read when chat is open, show double-check icon for read messages), add call buttons (voice/video) in chat header, show group members list for group chats",
+    "3. Create src/pages/VideoCall.jsx: Full-screen video call UI using native RTCPeerConnection API. Firebase Firestore as signaling server (store offer/answer/ICE candidates in a 'calls' collection). Features: local/remote video streams, mute audio, toggle camera, end call, call timer, caller/callee UI states, ringing state",
+    "4. Create src/pages/VoiceCall.jsx: Voice-only call UI using native RTCPeerConnection with audio-only constraints. Show caller avatar, call timer, mute button, speaker toggle, end call button. Same Firestore signaling pattern as video call",
+    "5. Create src/services/webrtc.js: Shared WebRTC utilities - createPeerConnection (with STUN servers), createOffer, createAnswer, addIceCandidate, Firestore signaling helpers (createCallDocument, listenForAnswer, listenForICECandidates, sendICECandidate)",
+    "6. Create src/components/IncomingCall.jsx: Overlay component that listens for incoming calls (Firestore listener on calls where recipientId matches current user and status is 'ringing'), shows caller info with accept/reject buttons, navigate to VideoCall or VoiceCall on accept",
+    "7. Update src/App.jsx: add routes for /call/video/:callId and /call/voice/:callId, render IncomingCall component globally inside AuthProvider",
+    "8. Update src/components/Layout.jsx: render IncomingCall overlay"
+  ],
+  "acceptance_criteria": [
+    "Users can send text and image messages in real-time",
+    "Typing indicator shows when other user is typing",
+    "Read receipts show double-check marks for read messages",
+    "Users can create group chats with multiple participants",
+    "Voice call initiates WebRTC connection via Firestore signaling",
+    "Video call shows local and remote video streams",
+    "Incoming call overlay appears when someone calls",
+    "Call can be accepted or rejected"
+  ],
+  "verification": [
+    "Verify all files have valid JSX syntax",
+    "Verify WebRTC code uses only native browser APIs (RTCPeerConnection, getUserMedia)",
+    "Verify Firestore signaling pattern is correct (offer/answer/candidates flow)"
+  ],
+  "blocked_reason": null,
+  "findings": ""
+}

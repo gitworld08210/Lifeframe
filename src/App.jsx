@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import PrivateRoute from './components/PrivateRoute';
 import Layout from './components/Layout';
+import IncomingCall from './components/IncomingCall';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import ForgotPassword from './pages/ForgotPassword';
@@ -12,6 +13,8 @@ import Messages from './pages/Messages';
 import ChatView from './pages/ChatView';
 import Profile from './pages/Profile';
 import Notifications from './pages/Notifications';
+import VideoCall from './pages/VideoCall';
+import VoiceCall from './pages/VoiceCall';
 
 export default function App() {
   return (
@@ -31,7 +34,10 @@ export default function App() {
         <Route
           element={
             <PrivateRoute>
-              <Layout />
+              <>
+                <IncomingCall />
+                <Layout />
+              </>
             </PrivateRoute>
           }
         >
@@ -43,6 +49,22 @@ export default function App() {
           <Route path="/profile/:userId" element={<Profile />} />
           <Route path="/notifications" element={<Notifications />} />
         </Route>
+        <Route
+          path="/call/video/:callId"
+          element={
+            <PrivateRoute>
+              <VideoCall />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/call/voice/:callId"
+          element={
+            <PrivateRoute>
+              <VoiceCall />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </AuthProvider>
   );
