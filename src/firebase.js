@@ -12,9 +12,29 @@ const firebaseConfig = {
   appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
+// Check if required config values are present
+const requiredKeys = ['apiKey', 'authDomain', 'projectId'];
+const missingKeys = requiredKeys.filter((key) => !firebaseConfig[key]);
 
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const storage = getStorage(app);
+export const firebaseReady = missingKeys.length === 0;
+
+let app = null;
+let auth = null;
+let db = null;
+let storage = null;
+
+if (firebaseReady) {
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  db = getFirestore(app);
+  storage = getStorage(app);
+} else {
+  console.warn(
+    '[Lifeframe] Firebase is not configured. Missing environment variables:',
+    missingKeys.map((k) => `VITE_FIREBASE_${k.replace(/([A-Z])/g, '_$1').toUpperCase()}`).join(', ')
+  );
+  console.warn('[Lifeframe] Create a .env file based on .env.example to enable Firebase features.');
+}
+
+export { auth, db, storage };
 export default app;

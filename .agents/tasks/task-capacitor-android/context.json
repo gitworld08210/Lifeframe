@@ -1,0 +1,22 @@
+{
+  "project_type": "React 18 + Vite SPA (social media app called Lifeframe)",
+  "language": "JavaScript/JSX",
+  "build_system": "Vite 5 with @vitejs/plugin-react",
+  "test_framework": "none configured",
+  "build_command": "N/A - INTEGRATIONS_ONLY network, cannot run npm install",
+  "test_command": "N/A - no test framework configured",
+  "verification_instructions": "Verify all files exist with correct content using file reads and AST-level checks",
+  "snapshot_or_generated_files": null,
+  "setup_instructions": "N/A - INTEGRATIONS_ONLY mode, no package installation possible",
+  "environment_constraints": "INTEGRATIONS_ONLY network mode - cannot run npm install, cannot download from registries, cannot run builds. All files must be created directly. Verification limited to file existence and content checks.",
+  "contribution_requirements": "Commit all changes and push to GitHub remote (owner: gitworld08210, repo: Lifeframe)",
+  "key_patterns": "React functional components, Firebase for backend, Cloudinary for media, react-router-dom for routing, Vite for bundling",
+  "relevant_files": [
+    "package.json",
+    "vite.config.js",
+    "index.html",
+    "src/main.jsx",
+    ".gitignore"
+  ],
+  "directory_structure": "src/ contains React app (components, pages, contexts, hooks, services, styles, utils), public/ for static assets, project root has config files"
+}

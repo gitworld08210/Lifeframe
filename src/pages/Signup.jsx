@@ -37,7 +37,7 @@ export default function Signup() {
     <div className="auth-page">
       <div className="auth-card glass-card">
         <div className="auth-header">
-          <h1 className="app-logo">GlassVerse</h1>
+          <h1 className="app-logo">Lifeframe</h1>
           <p className="auth-subtitle">Create your account</p>
         </div>
         {error && <div className="auth-error">{error}</div>}

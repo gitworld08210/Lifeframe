@@ -1,0 +1,35 @@
+{
+  "id": "FEAT-001",
+  "type": "fix",
+  "description": "Critical fixes and foundation rebuild - Fix Firebase crash on missing env vars, add error boundary, rename app from GlassVerse to Lifeframe, fix the blank screen issue, add forgot password, add proper loading states, add search page, and rebuild the core infrastructure to be production-ready.",
+  "status": "completed",
+  "steps": [
+    "1. Update index.html: change title from GlassVerse to Lifeframe",
+    "2. Update package.json: change name from glassverse to lifeframe",
+    "3. Rewrite src/firebase.js to handle missing env vars gracefully - check if config values are defined before calling initializeApp, export a boolean 'firebaseReady' flag, and show console warning if not configured",
+    "4. Create src/components/ErrorBoundary.jsx - a React error boundary that catches crashes and shows a friendly error screen with retry button instead of blank page",
+    "5. Update src/main.jsx to wrap the app in ErrorBoundary",
+    "6. Update src/contexts/AuthContext.jsx: add resetPassword function using sendPasswordResetEmail from firebase/auth, add try-catch around onAuthStateChanged to handle firebase not ready, export updateUserProfile function",
+    "7. Update src/pages/Login.jsx: rename branding to Lifeframe, add Forgot Password link/modal",
+    "8. Update src/pages/Signup.jsx: rename branding to Lifeframe",
+    "9. Create src/pages/ForgotPassword.jsx: email input form that calls resetPassword from AuthContext",
+    "10. Create src/pages/Search.jsx: search users by username/displayName using Firestore queries, display results with avatar/name/username, click to navigate to profile",
+    "11. Update src/components/Layout.jsx: rename logo from GlassVerse to Lifeframe, add Search icon/nav item in bottom nav",
+    "12. Update src/App.jsx: add routes for /forgot-password and /search, import ErrorBoundary, add search route inside protected Layout",
+    "13. Update src/components/PrivateRoute.jsx: handle case where firebase is not initialized (show config needed message instead of infinite spinner)"
+  ],
+  "acceptance_criteria": [
+    "App does not crash with blank screen when env vars are missing - shows friendly error",
+    "ErrorBoundary catches render errors and displays recovery UI",
+    "App branding shows Lifeframe everywhere instead of GlassVerse",
+    "Forgot password flow is functional",
+    "Search page allows finding users by name/username",
+    "Bottom nav has 5 items: Feed, Reels, Search, Chat, Profile"
+  ],
+  "verification": [
+    "Visually inspect all modified files for syntax errors",
+    "Verify no import/export mismatches across the codebase"
+  ],
+  "blocked_reason": null,
+  "findings": "All 13 steps completed. Firebase graceful handling exports firebaseReady boolean. ErrorBoundary wraps at main.jsx level. AuthContext exports resetPassword and updateUserProfile. Bottom nav now has 5 items: Feed, Reels, Search, Chat, Profile. Cloudinary folder paths still use glassverse prefix (storage paths, not user-facing branding). Cannot run npm build/test in INTEGRATIONS_ONLY mode - verified via import/export consistency checks and manual syntax review."
+}
