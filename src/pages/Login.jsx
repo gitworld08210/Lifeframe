@@ -29,7 +29,7 @@ export default function Login() {
     <div className="auth-page">
       <div className="auth-card glass-card">
         <div className="auth-header">
-          <h1 className="app-logo">GlassVerse</h1>
+          <h1 className="app-logo">Lifeframe</h1>
           <p className="auth-subtitle">Welcome back</p>
         </div>
         {error && <div className="auth-error">{error}</div>}
@@ -45,6 +45,7 @@ export default function Login() {
           </button>
         </form>
         <div className="auth-footer">
+          <p><Link to="/forgot-password" className="auth-link">Forgot Password?</Link></p>
           <p>Don&apos;t have an account? <Link to="/signup" className="auth-link">Sign up</Link></p>
         </div>
       </div>

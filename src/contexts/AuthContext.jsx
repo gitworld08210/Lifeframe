@@ -4,9 +4,11 @@ import {
   signInWithEmailAndPassword,
   signOut,
   onAuthStateChanged,
+  sendPasswordResetEmail,
+  updateProfile,
 } from 'firebase/auth';
-import { doc, setDoc, getDoc, serverTimestamp } from 'firebase/firestore';
-import { auth, db } from '../firebase';
+import { doc, setDoc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore';
+import { auth, db, firebaseReady } from '../firebase';
 
 const AuthContext = createContext();
 
@@ -50,6 +52,16 @@ export function AuthProvider({ children }) {
     return signOut(auth);
   }
 
+  async function resetPassword(email) {
+    return sendPasswordResetEmail(auth, email);
+  }
+
+  async function updateUserProfile(uid, data) {
+    const userRef = doc(db, 'users', uid);
+    await updateDoc(userRef, data);
+    setUserProfile((prev) => ({ ...prev, ...data }));
+  }
+
   async function fetchUserProfile(uid) {
     const userDoc = await getDoc(doc(db, 'users', uid));
     if (userDoc.exists()) {
@@ -58,16 +70,26 @@ export function AuthProvider({ children }) {
   }
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setCurrentUser(user);
-      if (user) {
-        await fetchUserProfile(user.uid);
-      } else {
-        setUserProfile(null);
-      }
+    if (!firebaseReady) {
       setLoading(false);
-    });
-    return unsubscribe;
+      return;
+    }
+
+    try {
+      const unsubscribe = onAuthStateChanged(auth, async (user) => {
+        setCurrentUser(user);
+        if (user) {
+          await fetchUserProfile(user.uid);
+        } else {
+          setUserProfile(null);
+        }
+        setLoading(false);
+      });
+      return unsubscribe;
+    } catch (err) {
+      console.error('[Lifeframe] Auth state listener error:', err);
+      setLoading(false);
+    }
   }, []);
 
   const value = {
@@ -77,6 +99,9 @@ export function AuthProvider({ children }) {
     signup,
     login,
     logout,
+    resetPassword,
+    updateUserProfile,
+    firebaseReady,
   };
 
   return (
