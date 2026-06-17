@@ -1,0 +1,7 @@
+{
+  "task_id": "task-nextjs15-phase1",
+  "task_description": "Complete replacement of existing Vite/React app with Next.js 15 project implementing Phase 1: Foundation + Liquid Glass Design System. Delete all old files, create fresh project with TypeScript strict, Tailwind CSS with custom design tokens, full Glass Component Library, routing architecture, Firebase/Cloudinary setup, Zustand stores, and TanStack React Query configuration.",
+  "status": "in_progress",
+  "feature_order": ["FEAT-001", "FEAT-002"],
+  "blocked_reason": null
+}

@@ -1,0 +1,19 @@
+{
+  "project_type": "Next.js 15 App Router with TypeScript strict mode",
+  "language": "TypeScript",
+  "build_system": "Next.js (npm/npx next build) - CANNOT run npm install due to INTEGRATIONS_ONLY network",
+  "test_framework": "N/A for Phase 1 - foundation setup",
+  "build_command": "Cannot run - INTEGRATIONS_ONLY network prevents npm install",
+  "test_command": "Cannot run - INTEGRATIONS_ONLY network prevents npm install",
+  "verification_instructions": "Verify all files are created with correct TypeScript syntax. Cannot run build/test due to network constraints.",
+  "snapshot_or_generated_files": null,
+  "setup_instructions": "User will run npm install locally after push",
+  "environment_constraints": "INTEGRATIONS_ONLY network - cannot run npm install, npm run build, or fetch packages. All source code must be generated as files directly. User will run npm install locally.",
+  "contribution_requirements": "Complete replacement of existing Vite/React app. Delete all old files (src/, index.html, vite.config.js, android/, capacitor.config.json, .env.example, .github/, README.md, package.json). Keep .git and .gitignore (update for Next.js).",
+  "key_patterns": "Next.js 15 App Router, TypeScript strict, Tailwind CSS with custom design tokens, Framer Motion for animations, Zustand stores, TanStack React Query, Firebase Web SDK v10 modular imports, Cloudinary",
+  "relevant_files": [
+    "All files to DELETE: src/, index.html, vite.config.js, android/, capacitor.config.json, .env.example, .github/, README.md, package.json",
+    "All files to CREATE: package.json, tsconfig.json, next.config.js, tailwind.config.ts, postcss.config.js, app/layout.tsx, app/globals.css, components/ui/*, lib/firebase/*, lib/cloudinary/*, lib/store/*, lib/hooks/*, types/*, middleware.ts"
+  ],
+  "directory_structure": "Fresh Next.js 15 project structure: app/ (routes), components/ui/ (glass components), components/feature/ (composite), lib/firebase/, lib/cloudinary/, lib/hooks/, lib/store/, lib/utils/, types/"
+}

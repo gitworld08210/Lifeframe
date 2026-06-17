@@ -1,0 +1,53 @@
+{
+  "id": "FEAT-001",
+  "type": "chore",
+  "description": "Delete all existing Vite/React/Capacitor files and create fresh Next.js 15 project foundation with TypeScript strict mode, Tailwind CSS with Liquid Glass design tokens, and all configuration files. Create the complete folder structure and all library initialization files (Firebase, Cloudinary, Zustand stores, React Query provider, utility functions, TypeScript types).",
+  "status": "completed",
+  "steps": [
+    "Delete all old files: rm -rf src/ android/ .github/ .env.example index.html vite.config.js capacitor.config.json README.md package.json",
+    "Create package.json with all dependencies: next@15, react@19, react-dom@19, typescript, tailwindcss, postcss, autoprefixer, framer-motion, zustand, @tanstack/react-query, firebase@10, cloudinary (types packages too)",
+    "Create tsconfig.json with strict:true, paths aliases (@/components/*, @/lib/*, @/types/*)",
+    "Create next.config.js (Vercel-ready, image domains for cloudinary)",
+    "Create tailwind.config.ts with ALL Liquid Glass design tokens: brand colors (primary #6C63FF, secondary #00D4FF, accent #FF6B9D, gold #FFD700), text colors, glass surface utilities, typography scale (display-lg 32px/bold, headline 22px/semibold, title 16px/medium, body 15px/regular, label 12px/medium, caption 11px/regular), spacing scale (4px grid), border-radius tokens (sm 8px, md 12px, lg 16px, full 9999px), background gradients per route group",
+    "Create postcss.config.js with tailwindcss and autoprefixer",
+    "Create app/globals.css with Tailwind directives, CSS custom properties for all design tokens, glass surface base styles, @supports fallbacks for backdrop-filter, -webkit-backdrop-filter prefix for Safari",
+    "Create app/layout.tsx (root layout with metadata, font loading, QueryClientProvider, body with dark bg)",
+    "Create app/(auth)/layout.tsx, app/(auth)/login/page.tsx, app/(auth)/signup/page.tsx, app/(auth)/forgot-password/page.tsx (placeholder pages)",
+    "Create app/(main)/layout.tsx with GlassNavbar + GlassSidebar (desktop) / bottom tab bar (mobile <768px)",
+    "Create app/(main)/feed/page.tsx, app/(main)/profile/[username]/page.tsx, app/(main)/reels/page.tsx, app/(main)/messages/page.tsx, app/(main)/explore/page.tsx, app/(main)/creator-hub/page.tsx (placeholder pages)",
+    "Create app/(public)/layout.tsx and placeholder public routes",
+    "Create loading.tsx and error.tsx for every route segment",
+    "Create middleware.ts that verifies Firebase session cookie, redirects unauthenticated users from (main) routes",
+    "Create lib/firebase/config.ts (Firebase Web SDK v10 modular init: Auth, Firestore), lib/firebase/converters.ts (typed Firestore converters)",
+    "Create lib/cloudinary/config.ts (upload signature helper), lib/cloudinary/transforms.ts (transformation URL builders for feed thumbnail, full-size, avatar)",
+    "Create lib/store/authStore.ts, lib/store/uiStore.ts, lib/store/feedStore.ts, lib/store/callStore.ts (Zustand stores)",
+    "Create lib/hooks/useMediaQuery.ts, lib/hooks/useScrollPosition.ts",
+    "Create lib/utils/cn.ts (classname merge utility), lib/utils/constants.ts",
+    "Create lib/providers.tsx (QueryClientProvider with staleTime 30s, gcTime 5min)",
+    "Create types/index.ts, types/user.ts, types/post.ts, types/reel.ts, types/message.ts, types/call.ts (all shared TypeScript interfaces)",
+    "Update .gitignore for Next.js (add .next/, out/, next-env.d.ts, .vercel)"
+  ],
+  "acceptance_criteria": [
+    "All old Vite/React/Capacitor files are deleted",
+    "package.json contains all required dependencies for Next.js 15, React 19, TypeScript, Tailwind, Framer Motion, Zustand, TanStack React Query, Firebase v10",
+    "tsconfig.json has strict:true and path aliases configured",
+    "tailwind.config.ts has all Liquid Glass design tokens defined",
+    "app/globals.css has CSS custom properties, glass surface styles, and backdrop-filter fallbacks",
+    "Root layout wraps app in QueryClientProvider",
+    "All route groups (auth), (main), (public) exist with layouts",
+    "Every route segment has loading.tsx and error.tsx",
+    "middleware.ts exists with Firebase session verification logic",
+    "All lib/ directories created with initialization files",
+    "All Zustand stores created with proper TypeScript types",
+    "All types/ files created with comprehensive interfaces",
+    ".gitignore updated for Next.js"
+  ],
+  "verification": [
+    "Confirm all old files (src/, android/, index.html, vite.config.js, capacitor.config.json) are deleted",
+    "Confirm package.json exists with correct dependencies",
+    "Confirm all new directories exist: app/, components/ui/, components/feature/, lib/firebase/, lib/cloudinary/, lib/hooks/, lib/store/, lib/utils/, types/",
+    "Confirm TypeScript files have no obvious syntax errors (manual review)"
+  ],
+  "blocked_reason": null,
+  "findings": "All old Vite/React/Capacitor files deleted successfully. Complete Next.js 15 foundation created with all required files. Cannot verify build due to INTEGRATIONS_ONLY network (no npm install). next-env.d.ts was created but excluded by .gitignore as Next.js regenerates it. The file structure is complete and all TypeScript code follows proper syntax."
+}

@@ -1,14 +1,32 @@
+# Dependencies
 node_modules/
-dist/
+
+# Next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# Vercel
+.vercel
+
+# Environment variables
 .env
 .env.local
-.DS_Store
-*.log
+.env.development.local
+.env.test.local
+.env.production.local
 
-# Android
-android/.gradle/
-android/app/build/
-android/build/
-android/captures/
-android/.idea/
-*.apk
+# Debug logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
