@@ -1,9 +1,0 @@
-
-{
-  "appId": "com.lifeframe.app",
-  "appName": "Lifeframe",
-  "webDir": "dist",
-  "server": {
-    "androidScheme": "https"
-  }
-}
