@@ -1,4 +1,4 @@
-# GlassVerse - Social Media App
+# GlassVerse - Social Media App 
 
 A production-ready social media web app with **Liquid Glass UI**, combining Instagram Reels, X/Twitter Feed, and Telegram/WhatsApp Messaging.
 
