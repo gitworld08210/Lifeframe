@@ -1,4 +1,5 @@
 # Lifeframe
+# GlassVerse - Social Media App 
 
 A modern social media platform with an iOS-inspired **Liquid Glass UI**. Combines Instagram-style Reels, Twitter/X-style Feed, and WhatsApp-style Messaging into one beautiful mobile-first experience.
 
